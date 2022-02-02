@@ -1,7 +1,7 @@
 {
   "name": "await-shell",
   "type": "module",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
@@ -20,7 +20,7 @@
     "prepublishOnly": "tsmodule build"
   },
   "devDependencies": {
-    "@tsmodule/tsmodule": "^9.1.0"
+    "@tsmodule/tsmodule": "^9.4.0"
   },
   "ava": {
     "files": [
@@ -33,9 +33,5 @@
       "--no-warnings",
       "--loader=@tsmodule/tsmodule"
     ]
-  },
-  "dependencies": {
-    "@types/cross-spawn": "^6.0.2",
-    "cross-spawn": "^7.0.3"
   }
 }
