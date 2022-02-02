@@ -19,12 +19,3 @@ test.serial("should throw for nonzero exit code", async (t) => {
   }
   t.fail();
 });
-
-test.serial("should throw on process failure", async (t) => {
-  try {
-    await import("../example/nodeFailure.js");
-  } catch (e) {
-    return t.pass();
-  }
-  t.fail();
-});
