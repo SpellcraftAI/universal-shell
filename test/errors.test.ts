@@ -1,18 +1,16 @@
 import { shell } from "../src";
 import test from "ava";
 
-test("should not throw for exit code 0", async (t) => {
+test.serial("should not throw for exit code 0", async (t) => {
   try {
-    await shell(`
-      exit 0
-    `);
+    await shell("exit 0");
   } catch (e) {
     return t.fail();
   }
   t.pass();
 });
 
-test("should throw for nonzero exit code", async (t) => {
+test.serial("should throw for nonzero exit code", async (t) => {
   try {
     globalThis.SHELL_LOG = true;
     await shell("echo test", "exit 1");
@@ -22,7 +20,7 @@ test("should throw for nonzero exit code", async (t) => {
   t.fail();
 });
 
-test("should throw on process failure", async (t) => {
+test.serial("should throw on process failure", async (t) => {
   try {
     await shell("tsm ./example/nodeFailure.ts");
   } catch (e) {
