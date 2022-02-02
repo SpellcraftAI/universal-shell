@@ -5,7 +5,6 @@
 
 import { spawn, SpawnOptions } from "child_process";
 import chalk from "chalk";
-// import spawn from "cross-spawn";
 
 const DEFAULTS: SpawnOptions = {
   shell: true,
