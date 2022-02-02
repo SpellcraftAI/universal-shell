@@ -3,8 +3,10 @@
  * @license MIT
  */
 
-import { spawn, SpawnOptions } from "child_process";
 import chalk from "chalk";
+
+import { SpawnOptions } from "child_process";
+import { spawn } from "cross-spawn";
 
 const DEFAULTS: SpawnOptions = {
   shell: true,

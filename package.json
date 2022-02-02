@@ -33,5 +33,9 @@
       "--no-warnings",
       "--loader=@tsmodule/tsmodule"
     ]
+  },
+  "dependencies": {
+    "@types/cross-spawn": "^6.0.2",
+    "cross-spawn": "^7.0.3"
   }
 }
