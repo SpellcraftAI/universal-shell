@@ -22,7 +22,7 @@ test.serial("should throw for nonzero exit code", async (t) => {
 
 test.serial("should throw on process failure", async (t) => {
   try {
-    await shell("tsm ./example/nodeFailure.ts");
+    await import("../example/nodeFailure.js");
   } catch (e) {
     return t.pass();
   }
