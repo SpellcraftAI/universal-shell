@@ -1,7 +1,7 @@
 {
   "name": "await-shell",
   "type": "module",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
@@ -15,7 +15,12 @@
   "scripts": {
     "build": "tsm build",
     "test": "ava",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "prepare": "tsmodule build --fast",
+    "prepublishOnly": "tsmodule build"
+  },
+  "devDependencies": {
+    "@tsmodule/tsmodule": "^9.1.0"
   },
   "ava": {
     "files": [
@@ -26,16 +31,7 @@
     },
     "nodeArguments": [
       "--no-warnings",
-      "--loader=@tsmodule/tsm"
+      "--loader=@tsmodule/tsmodule"
     ]
-  },
-  "devDependencies": {
-    "@tsmodule/tsm": "^8.1.0",
-    "@types/cross-spawn": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
-    "@typescript-eslint/parser": "^5.10.2",
-    "ava": "^4.0.1",
-    "eslint": "^8.8.0",
-    "typescript": "^4.5.5"
   }
 }
