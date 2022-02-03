@@ -20,6 +20,9 @@ declare namespace global {
   const SHELL_OPTIONS: SpawnOptions | undefined;
 }
 
+import type * as child_process from "child_process";
+let childProcess: ReturnType<typeof child_process.spawn> | undefined;
+
 /**
  * Execute a sequence of shell commands.
  *
@@ -73,7 +76,7 @@ export const shell = async (...cmds: string[]) => {
         console.log(chalk.grey(`\n> ${thisCmd} ${args.join(" ")}\n`));
       }
 
-      spawn(thisCmd, args, global.SHELL_OPTIONS || DEFAULTS)
+      childProcess = spawn(thisCmd, args, global.SHELL_OPTIONS || DEFAULTS)
         .on(
           "exit",
           (code) => {
@@ -90,4 +93,10 @@ export const shell = async (...cmds: string[]) => {
   }
   /** Write newline to prevent visual clutter. */
   if (global.SHELL_LOG) console.log();
+};
+
+export const killShell = () => {
+  if (childProcess) {
+    childProcess.kill();
+  }
 };
