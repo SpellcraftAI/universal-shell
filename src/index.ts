@@ -76,19 +76,22 @@ export const shell = async (...cmds: string[]) => {
         console.log(chalk.grey(`\n> ${thisCmd} ${args.join(" ")}\n`));
       }
 
-      childProcess = spawn(thisCmd, args, global.SHELL_OPTIONS || DEFAULTS)
-        .on(
-          "close",
-          (code) => {
-            if (code === 0) resolve(0);
-            else {
-              if (global.SHELL_STRICT) {
-                process.exit(1);
+      childProcess =
+        spawn(thisCmd, args, global.SHELL_OPTIONS || DEFAULTS)
+          .on(
+            "exit",
+            (code) => {
+              console.log("Exit code:", code, thisCmd);
+              if (code === 0) resolve(0);
+              else {
+                if (global.SHELL_STRICT) {
+                  process.exit(1);
+                } else {
+                  reject(new Error("Exited with code: " + code));
+                }
               }
-              else reject(new Error("Exited with code: " + code));
-            }
-          },
-        );
+            },
+          );
     });
   }
   /** Write newline to prevent visual clutter. */
