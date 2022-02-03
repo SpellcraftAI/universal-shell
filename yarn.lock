@@ -57,10 +57,10 @@
   resolved "https://registry.yarnpkg.com/@socket.io/base64-arraybuffer/-/base64-arraybuffer-1.0.2.tgz#568d9beae00b0d835f4f8c53fd55714986492e61"
   integrity sha512-dOlCBKnDw4iShaIsH/bxujKTM18+2TOAsYz+KSc11Am38H4q5Xw8Bbz97ZYdrVNM+um3p7w86Bvvmcn9q+5+eQ==
 
-"@tsmodule/tsmodule@^9.4.0":
-  version "9.4.0"
-  resolved "https://registry.yarnpkg.com/@tsmodule/tsmodule/-/tsmodule-9.4.0.tgz#c0cfed408832c41396a2d16869d16cab3595ea87"
-  integrity sha512-sKob3Mfeve9KX84l9tSSxqh36jq7qEhehUSqcV5eIPayecfqwlbwqeEUH61cUrECnnko6sidqZ5pVzhZQt0hGQ==
+"@tsmodule/tsmodule@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@tsmodule/tsmodule/-/tsmodule-10.0.0.tgz#41ac2b74c8fe8fdc7260b9ec849f368bf7ac430b"
+  integrity sha512-s8f+hXKXGrOTZQWFUA4JSzONfeLBMahMO9o5osBZg4N+gmEcOpRaqvFBYnzthmHD5Nee8YS+ByHRrTsaZJIXLg==
   dependencies:
     "@types/cross-spawn" "^6.0.2"
     "@types/node" "17.0.8"
@@ -68,8 +68,9 @@
     "@typescript-eslint/eslint-plugin" "^5.9.1"
     "@typescript-eslint/parser" "^5.9.1"
     ava "^4.0.1"
-    await-shell "^4.0.2"
+    await-shell "^4.1.0"
     chalk "^5.0.0"
+    chokidar "^3.5.3"
     commander "^8.3.0"
     create-debug-logger "^1.10.1"
     cross-spawn "^7.0.3"
@@ -77,6 +78,7 @@
     eslint "^8.6.0"
     fast-glob "^3.2.10"
     ora "^6.0.1"
+    path "^0.12.7"
     react "^17.0.2"
     typescript "^4.5.5"
 
@@ -388,13 +390,10 @@ ava@^4.0.1:
     write-file-atomic "^3.0.3"
     yargs "^17.3.1"
 
-await-shell@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/await-shell/-/await-shell-4.0.2.tgz#bc29f0a477af630b0ce9bb6fe34317d4c52cb4b3"
-  integrity sha512-T+9HXCbAfjX4BSlKjdrOwocMNyfgiAjzY1O+GBvEDFzQ+jqRdA0g8gZXt3CspSuX/kSYnIOWN88wKbSUDGswoQ==
-  dependencies:
-    "@types/cross-spawn" "^6.0.2"
-    cross-spawn "^7.0.3"
+await-shell@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/await-shell/-/await-shell-4.1.0.tgz#ca7f2e20f85bdd20105a773b5f2248fa9148d7db"
+  integrity sha512-UcunlZ8i+itc3r4YjQRvpCFjhe4wKuAC0qTwOj/vWCXfJ7+oTeOghN+TFgFf52Wpwvs24xDb9uAtiOJMscAwVg==
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -483,7 +482,7 @@ chalk@^5.0.0:
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.0.0.tgz#bd96c6bb8e02b96e08c0c3ee2a9d90e050c7b832"
   integrity sha512-/duVOqst+luxCQRKEo4bNxinsOQtMP80ZYm7mMqzuh5PociNL0PvmHFvREJ9ueYL2TxlHjBcmLCdmocx9Vg+IQ==
 
-chokidar@^3.5.2:
+chokidar@^3.5.2, chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
   integrity sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==
@@ -1263,6 +1262,11 @@ inherits@2, inherits@^2.0.3, inherits@^2.0.4:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
+inherits@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
+  integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+
 irregular-plurals@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/irregular-plurals/-/irregular-plurals-3.3.0.tgz#67d0715d4361a60d9fd9ee80af3881c631a31ee2"
@@ -1672,6 +1676,14 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+path@^0.12.7:
+  version "0.12.7"
+  resolved "https://registry.yarnpkg.com/path/-/path-0.12.7.tgz#d4dc2a506c4ce2197eb481ebfcd5b36c0140b10f"
+  integrity sha1-1NwqUGxM4hl+tIHr/NWzbAFAsQ8=
+  dependencies:
+    process "^0.11.1"
+    util "^0.10.3"
+
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3, picomatch@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
@@ -1703,6 +1715,11 @@ pretty-ms@^7.0.1:
   integrity sha512-973driJZvxiGOQ5ONsFhOF/DtzPMOMtgC11kCpUrPGMTgqp2q/1gwzCquocrN33is0VZ5GFHXZYMM9l6h67v2Q==
   dependencies:
     parse-ms "^2.1.0"
+
+process@^0.11.1:
+  version "0.11.10"
+  resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
+  integrity sha1-czIwDoQBYb2j5podHZGn1LwW8YI=
 
 punycode@^2.1.0:
   version "2.1.1"
@@ -2020,6 +2037,13 @@ util-deprecate@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
+
+util@^0.10.3:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/util/-/util-0.10.4.tgz#3aa0125bfe668a4672de58857d3ace27ecb76901"
+  integrity sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==
+  dependencies:
+    inherits "2.0.3"
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"
