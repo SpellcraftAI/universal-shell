@@ -11,6 +11,7 @@ import { spawn } from "cross-spawn";
 const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
+  detached: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -98,8 +99,8 @@ export const shell = async (...cmds: string[]) => {
 };
 
 export const killShell: child_process.ChildProcess["kill"] = (...args) => {
-  if (childProcess) {
-    return childProcess.kill(...args);
+  if (childProcess?.pid) {
+    return process.kill(childProcess.pid, ...args);
   }
 
   return false;
