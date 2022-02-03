@@ -36,8 +36,8 @@ test.serial("killShell() should cause promise to resolve", async (t) => {
     new Promise(
       (resolve) => {
         setTimeout(
-          async () => {
-            const killed = await killShell();
+          () => {
+            const killed = killShell();
             resolve(killed);
           },
           5000
