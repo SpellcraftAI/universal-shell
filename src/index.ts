@@ -78,7 +78,7 @@ export const shell = async (...cmds: string[]) => {
 
       childProcess = spawn(thisCmd, args, global.SHELL_OPTIONS || DEFAULTS)
         .on(
-          "exit",
+          "close",
           (code) => {
             if (code === 0) resolve(0);
             else {
