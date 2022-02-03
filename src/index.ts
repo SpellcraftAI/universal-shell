@@ -11,7 +11,6 @@ import { spawn } from "cross-spawn";
 const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
-  detached: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
