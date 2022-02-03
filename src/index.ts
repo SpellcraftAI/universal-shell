@@ -98,7 +98,7 @@ export const shell = async (...cmds: string[]) => {
   if (global.SHELL_LOG) console.log();
 };
 
-export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGINT") => {
+export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGTERM") => {
   if (childProcess) {
     return childProcess.kill(signal);
   }
