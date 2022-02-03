@@ -1,7 +1,7 @@
 {
   "name": "await-shell",
   "type": "module",
-  "version": "4.1.0",
+  "version": "6.0.0",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
@@ -20,7 +20,7 @@
     "prepublishOnly": "tsmodule build"
   },
   "devDependencies": {
-    "@tsmodule/tsmodule": "^9.4.0"
+    "@tsmodule/tsmodule": "^10.0.0"
   },
   "ava": {
     "files": [
