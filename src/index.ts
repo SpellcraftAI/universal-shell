@@ -81,7 +81,6 @@ export const shell = async (...cmds: string[]) => {
           .on(
             "exit",
             (code) => {
-              console.log("Exit code:", code, thisCmd);
               if (code === 0) resolve(0);
               else {
                 if (global.SHELL_STRICT) {

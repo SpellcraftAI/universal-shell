@@ -18,10 +18,7 @@ test.serial("should throw for nonzero exit code", async (t) => {
   if (process.platform !== "win32") {
     try {
       globalThis.SHELL_LOG = true;
-      await shell(
-        "echo test",
-        "exit 1"
-      );
+      await shell("exit 1");
     } catch (e) {
       return t.pass();
     }
