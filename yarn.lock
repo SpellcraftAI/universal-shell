@@ -57,10 +57,10 @@
   resolved "https://registry.yarnpkg.com/@socket.io/base64-arraybuffer/-/base64-arraybuffer-1.0.2.tgz#568d9beae00b0d835f4f8c53fd55714986492e61"
   integrity sha512-dOlCBKnDw4iShaIsH/bxujKTM18+2TOAsYz+KSc11Am38H4q5Xw8Bbz97ZYdrVNM+um3p7w86Bvvmcn9q+5+eQ==
 
-"@tsmodule/tsmodule@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@tsmodule/tsmodule/-/tsmodule-10.0.0.tgz#41ac2b74c8fe8fdc7260b9ec849f368bf7ac430b"
-  integrity sha512-s8f+hXKXGrOTZQWFUA4JSzONfeLBMahMO9o5osBZg4N+gmEcOpRaqvFBYnzthmHD5Nee8YS+ByHRrTsaZJIXLg==
+"@tsmodule/tsmodule@^10.2.1":
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/@tsmodule/tsmodule/-/tsmodule-10.2.1.tgz#af5c5ab3d162392cf860b790439ea2b920052c39"
+  integrity sha512-YvBbkNuHXEm4NmIPtshGUsderz831x0RkxKFZ627EJzwfSjeZAaxSH60uob/VhYy993xu6NR6oJTtOQMfPHuEQ==
   dependencies:
     "@types/cross-spawn" "^6.0.2"
     "@types/node" "17.0.8"
@@ -68,7 +68,7 @@
     "@typescript-eslint/eslint-plugin" "^5.9.1"
     "@typescript-eslint/parser" "^5.9.1"
     ava "^4.0.1"
-    await-shell "^4.1.0"
+    await-shell "^6.0.3"
     chalk "^5.0.0"
     chokidar "^3.5.3"
     commander "^8.3.0"
@@ -390,10 +390,10 @@ ava@^4.0.1:
     write-file-atomic "^3.0.3"
     yargs "^17.3.1"
 
-await-shell@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/await-shell/-/await-shell-4.1.0.tgz#ca7f2e20f85bdd20105a773b5f2248fa9148d7db"
-  integrity sha512-UcunlZ8i+itc3r4YjQRvpCFjhe4wKuAC0qTwOj/vWCXfJ7+oTeOghN+TFgFf52Wpwvs24xDb9uAtiOJMscAwVg==
+await-shell@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/await-shell/-/await-shell-6.0.3.tgz#03d76ed9251686865f523b5255d4330a1112075c"
+  integrity sha512-i8nSDmEzD4vQMpX2bhhOoBKmDHsvEDAWP8lmuwAt57nLHUtg9EO3lWGQxgUznW3hdQE3kBtFrEi4YRFqMZHYrA==
 
 balanced-match@^1.0.0:
   version "1.0.2"
