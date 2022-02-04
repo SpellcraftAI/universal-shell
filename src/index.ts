@@ -98,12 +98,12 @@ export const shell = async (...cmds: string[]) => {
   if (global.SHELL_LOG) console.log();
 };
 
-export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGTERM") => {
+export const killShell: child_process.ChildProcess["kill"] = (signal) => {
   if (childProcess?.pid) {
     if (process.platform === "win32") {
-      return childProcess.kill(signal);
+      return childProcess.kill(signal || "SIGTERM");
     } else {
-      return process.kill(childProcess.pid, signal);
+      return process.kill(-childProcess.pid, signal || "SIGINT");
     }
   }
 
