@@ -31,6 +31,10 @@ declare namespace global {
 import type * as child_process from "child_process";
 let childProcess: ReturnType<typeof child_process.spawn> | undefined;
 
+const WINDOWS_CMDS: Record<string, string> = {
+  yarn: "yarn.cmd",
+};
+
 /**
  * Execute a sequence of shell commands.
  *
@@ -80,10 +84,8 @@ export const shell = async (...cmds: string[]) => {
       let thisCmd = commandParts.shift() ?? "";
       const args = commandParts;
 
-      if (thisCmd === "yarn") {
-        if (process.platform === "win32") {
-          thisCmd = "yarn.cmd";
-        }
+      if (process.platform === "win32" && thisCmd in WINDOWS_CMDS) {
+        thisCmd = WINDOWS_CMDS[thisCmd];
       }
 
       if (thisCmd.trim() !== "echo" && global.SHELL_LOG) {
