@@ -6,12 +6,14 @@
 import chalk from "chalk";
 
 import { SpawnOptions } from "child_process";
-import { exec } from "child_process";
 import { spawn } from "cross-spawn";
+
+const WINDOWS = process.platform === "win32";
 
 const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
+  detached: !WINDOWS,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -101,7 +103,12 @@ export const shell = async (...cmds: string[]) => {
 
 export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGTERM") => {
   if (childProcess?.pid) {
-    return childProcess.kill(signal);
+    if (WINDOWS) {
+      return childProcess.kill(signal);
+    } else {
+      process.kill(-childProcess.pid, signal);
+      return true;
+    }
   }
 
   return false;
