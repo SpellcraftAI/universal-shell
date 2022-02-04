@@ -26,6 +26,9 @@ declare namespace global {
 import type * as child_process from "child_process";
 let childProcess: ReturnType<typeof child_process.spawn> | undefined;
 
+// @ts-ignore - Windows is a bad operating system.
+let promiseResolveHack;
+
 /**
  * Execute a sequence of shell commands.
  *
@@ -72,6 +75,7 @@ export const shell = async (...cmds: string[]) => {
     const commandParts = cmd.split(" ");
 
     await new Promise((resolve, reject) => {
+      promiseResolveHack = resolve;
       const thisCmd = commandParts.shift() ?? "";
       const args = commandParts;
 
@@ -84,6 +88,7 @@ export const shell = async (...cmds: string[]) => {
           .on(
             "exit",
             (code) => {
+              promiseResolveHack = undefined;
               childProcess = undefined;
               if (code === 0) resolve(0);
               else {
@@ -104,10 +109,11 @@ export const shell = async (...cmds: string[]) => {
 export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGKILL") => {
   if (childProcess?.pid) {
     if (WINDOWS) {
+      // @ts-ignore - Windows is a bad operating system.
+      promiseResolveHack();
       return process.kill(childProcess.pid, signal);
     } else {
-      process.kill(-childProcess.pid, signal);
-      return true;
+      return process.kill(-childProcess.pid, signal);
     }
   }
 
