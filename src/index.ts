@@ -12,7 +12,6 @@ import { spawn } from "cross-spawn";
 const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
-  detached: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -105,7 +104,7 @@ export const killShell: child_process.ChildProcess["kill"] = (signal) => {
     if (process.platform === "win32") {
       exec(`taskkill /PID ${childProcess.pid} /T /F`);
     } else {
-      return process.kill(-childProcess.pid, signal || "SIGINT");
+      return childProcess.kill(signal || "SIGTERM");
     }
   }
 
