@@ -1,7 +1,7 @@
 {
   "name": "await-shell",
   "type": "module",
-  "version": "14.0.1",
+  "version": "15.0.0",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
