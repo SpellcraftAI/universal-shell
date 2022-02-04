@@ -8,19 +8,19 @@ const subprocessPath = fileURLToPath(subprocessFile);
 
 const SLEEP = "node -e 'while(true){}'";
 
-test.serial("should not throw for exit code 0", async (t) => {
+test.serial("should not throw for exit code 0 or 1", async (t) => {
   try {
-    await shell("exit 0");
+    await shell("exit 0", "exit 1");
   } catch (e) {
     return t.fail();
   }
   t.pass();
 });
 
-test.serial("should throw for nonzero exit code", async (t) => {
+test.serial("should throw for other exit codes", async (t) => {
   try {
     globalThis.SHELL_LOG = true;
-    await shell("exit 1");
+    await shell("exit 2");
   } catch (e) {
     return t.pass();
   }
