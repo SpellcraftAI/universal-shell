@@ -13,7 +13,7 @@ const WINDOWS = process.platform === "win32";
 const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
-  detached: !WINDOWS,
+  detached: false,
   env: {
     NODE_ENV: process.env.NODE_ENV,
     PATH: process.env.PATH
