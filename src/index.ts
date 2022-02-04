@@ -99,8 +99,12 @@ export const shell = async (...cmds: string[]) => {
 };
 
 export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGTERM") => {
-  if (childProcess) {
-    return childProcess.kill(signal);
+  if (childProcess?.pid) {
+    if (process.platform === "win32") {
+      return childProcess.kill(signal);
+    } else {
+      return process.kill(-childProcess.pid, signal);
+    }
   }
 
   return false;
