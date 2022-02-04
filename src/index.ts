@@ -6,7 +6,7 @@
 import chalk from "chalk";
 
 import { SpawnOptions } from "child_process";
-import { spawn } from "cross-spawn";
+import { spawn } from "child_process";
 
 const WINDOWS = process.platform === "win32";
 
@@ -14,6 +14,10 @@ const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
   detached: !WINDOWS,
+  env: {
+    NODE_ENV: process.env.NODE_ENV,
+    PATH: process.env.PATH
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -84,22 +88,25 @@ export const shell = async (...cmds: string[]) => {
 
       promiseResolveHack = resolve;
       childProcess =
-        spawn(thisCmd, args, global.SHELL_OPTIONS || DEFAULTS)
-          .on(
-            "exit",
-            (code) => {
-              promiseResolveHack = undefined;
-              childProcess = undefined;
-              if (code === 0) resolve(0);
-              else {
-                if (global.SHELL_STRICT) {
-                  process.exit(1);
-                } else {
-                  reject(new Error("Exited with code: " + code));
-                }
+        spawn(
+          thisCmd,
+          args,
+          global.SHELL_OPTIONS || DEFAULTS
+        ).on(
+          "exit",
+          (code) => {
+            promiseResolveHack = undefined;
+            childProcess = undefined;
+            if (code === 0) resolve(0);
+            else {
+              if (global.SHELL_STRICT) {
+                process.exit(1);
+              } else {
+                reject(new Error("Exited with code: " + code));
               }
-            },
-          );
+            }
+          },
+        );
     });
   }
   /** Write newline to prevent visual clutter. */
