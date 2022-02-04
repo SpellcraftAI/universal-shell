@@ -105,10 +105,12 @@ export const shell = async (...cmds: string[]) => {
   if (global.SHELL_LOG) console.log();
 };
 
+import { execSync } from "child_process";
 export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGKILL") => {
   if (childProcess?.pid) {
     if (WINDOWS) {
-      return process.kill(childProcess.pid, signal);
+      execSync(`taskkill /pid ${childProcess.pid} /t /f`);
+      return true;
     } else {
       return process.kill(-childProcess.pid, signal);
     }
