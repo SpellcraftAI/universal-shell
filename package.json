@@ -1,7 +1,7 @@
 {
   "name": "await-shell",
   "type": "module",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
@@ -35,7 +35,5 @@
       "--loader=@tsmodule/tsmodule"
     ]
   },
-  "dependencies": {
-    "tree-kill": "^1.2.2"
-  }
+  "dependencies": {}
 }
