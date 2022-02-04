@@ -35,7 +35,7 @@ test.serial("killShell() should cause promise to resolve", async (t) => {
   t.timeout(10_000);
 
   await Promise.allSettled([
-    shell(`${SLEEP} 30 && echo Slept 30s.`),
+    shell(`${SLEEP} 30`),
     new Promise(
       (resolve) => {
         setTimeout(
@@ -55,7 +55,7 @@ test.serial("killShell() should kill subprocesses", async (t) => {
   t.timeout(10_000);
 
   await Promise.allSettled([
-    shell(`${SLEEP} 30 && echo Slept 30s.`),
+    shell(`${SLEEP} 30 & echo Slept 30s.`),
     new Promise(
       (resolve) => {
         setTimeout(
