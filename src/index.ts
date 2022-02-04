@@ -6,7 +6,7 @@
 import chalk from "chalk";
 
 import { SpawnOptions } from "child_process";
-import { spawn } from "child_process";
+import { spawn } from "cross-spawn";
 
 const WINDOWS = process.platform === "win32";
 
