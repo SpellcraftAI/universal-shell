@@ -31,25 +31,25 @@ test.serial("should throw for nonzero exit code", async (t) => {
   }
 });
 
-test.serial("killShell() should cause promise to resolve", async (t) => {
-  t.timeout(10_000);
+// test.serial("killShell() should cause promise to resolve", async (t) => {
+//   t.timeout(10_000);
 
-  await Promise.allSettled([
-    shell(`${SLEEP}`),
-    new Promise(
-      (resolve) => {
-        setTimeout(
-          () => {
-            const killed = killShell();
-            resolve(killed);
-          },
-          5000
-        );
-      }),
-  ]);
+//   await Promise.allSettled([
+//     shell(`${SLEEP}`),
+//     new Promise(
+//       (resolve) => {
+//         setTimeout(
+//           () => {
+//             const killed = killShell();
+//             resolve(killed);
+//           },
+//           5000
+//         );
+//       }),
+//   ]);
 
-  t.pass();
-});
+//   t.pass();
+// });
 
 test.serial("killShell() should kill subprocesses", async (t) => {
   t.timeout(10_000);
