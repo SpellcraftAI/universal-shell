@@ -34,5 +34,8 @@
       "--no-warnings",
       "--loader=@tsmodule/tsmodule"
     ]
+  },
+  "dependencies": {
+    "tree-kill": "^1.2.2"
   }
 }
