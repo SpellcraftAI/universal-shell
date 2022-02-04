@@ -1,3 +1,4 @@
+import { env } from "../dist/index.js";
 import { spawnSync } from "child_process";
 
 spawnSync(
@@ -6,5 +7,6 @@ spawnSync(
   {
     shell: true,
     detached: false,
+    env,
   }
 );

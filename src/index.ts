@@ -10,15 +10,17 @@ import { spawn } from "child_process";
 
 const WINDOWS = process.platform === "win32";
 
+export const env = {
+  NODE_ENV: process.env.NODE_ENV,
+  PATH: process.env.PATH,
+  TERM: process.env.TERM,
+};
+
 const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
   detached: !WINDOWS,
-  env: {
-    NODE_ENV: process.env.NODE_ENV,
-    PATH: process.env.PATH,
-    TERM: process.env.TERM
-  },
+  env: env,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
