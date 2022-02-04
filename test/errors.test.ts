@@ -54,19 +54,22 @@ test.serial("killShell() should cause promise to resolve", async (t) => {
 test.serial("killShell() should kill subprocesses", async (t) => {
   t.timeout(10_000);
 
-  await Promise.allSettled([
-    shell(`${SLEEP} & ${SLEEP} & echo Slept 30s.`),
-    new Promise(
-      (resolve) => {
-        setTimeout(
-          () => {
-            const killed = killShell();
-            resolve(killed);
-          },
-          5000
-        );
-      }),
-  ]);
+  const { exec } = await import("child_process");
+  exec(SLEEP);
+
+  // await Promise.allSettled([
+  //   shell(`${SLEEP} & ${SLEEP} & echo Slept 30s.`),
+  //   new Promise(
+  //     (resolve) => {
+  //       setTimeout(
+  //         () => {
+  //           const killed = killShell();
+  //           resolve(killed);
+  //         },
+  //         5000
+  //       );
+  //     }),
+  // ]);
 
   t.pass();
 });
