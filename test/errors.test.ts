@@ -55,7 +55,7 @@ test.serial("killShell() should kill subprocesses", async (t) => {
   t.timeout(10_000);
 
   const { exec } = await import("child_process");
-  exec(SLEEP);
+  exec("echo test");
 
   // await Promise.allSettled([
   //   shell(`${SLEEP} & ${SLEEP} & echo Slept 30s.`),
