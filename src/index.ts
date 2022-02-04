@@ -6,7 +6,7 @@
 import chalk from "chalk";
 
 import { SpawnOptions } from "child_process";
-import { spawn } from "cross-spawn";
+import { spawn } from "child_process";
 
 const WINDOWS = process.platform === "win32";
 
@@ -77,8 +77,14 @@ export const shell = async (...cmds: string[]) => {
     const commandParts = cmd.split(" ");
 
     await new Promise((resolve, reject) => {
-      const thisCmd = commandParts.shift() ?? "";
+      let thisCmd = commandParts.shift() ?? "";
       const args = commandParts;
+
+      if (thisCmd === "yarn") {
+        if (process.platform === "win32") {
+          thisCmd = "yarn.cmd";
+        }
+      }
 
       if (thisCmd.trim() !== "echo" && global.SHELL_LOG) {
         console.log(chalk.grey(`\n> ${thisCmd} ${args.join(" ")}\n`));
