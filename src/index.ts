@@ -75,7 +75,6 @@ export const shell = async (...cmds: string[]) => {
     const commandParts = cmd.split(" ");
 
     await new Promise((resolve, reject) => {
-      promiseResolveHack = resolve;
       const thisCmd = commandParts.shift() ?? "";
       const args = commandParts;
 
@@ -83,6 +82,7 @@ export const shell = async (...cmds: string[]) => {
         console.log(chalk.grey(`\n> ${thisCmd} ${args.join(" ")}\n`));
       }
 
+      promiseResolveHack = resolve;
       childProcess =
         spawn(thisCmd, args, global.SHELL_OPTIONS || DEFAULTS)
           .on(
@@ -110,7 +110,7 @@ export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGKILL"
   if (childProcess?.pid) {
     if (WINDOWS) {
       // @ts-ignore - Windows is a bad operating system.
-      promiseResolveHack();
+      if (promiseResolveHack) promiseResolveHack();
       return process.kill(childProcess.pid, signal);
     } else {
       return process.kill(-childProcess.pid, signal);

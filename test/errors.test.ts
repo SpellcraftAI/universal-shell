@@ -1,6 +1,9 @@
 import { shell, killShell } from "../src";
 import test from "ava";
 
+
+const SLEEP = process.platform === "win32" ? "timeout" : "sleep";
+
 test.serial("should not throw for exit code 0", async (t) => {
   if (process.platform !== "win32") {
     try {
@@ -32,7 +35,7 @@ test.serial("killShell() should cause promise to resolve", async (t) => {
   t.timeout(10_000);
 
   await Promise.allSettled([
-    shell("sleep 30 && echo Slept 30s."),
+    shell(`${SLEEP} 30 && echo Slept 30s.`),
     new Promise(
       (resolve) => {
         setTimeout(
@@ -52,7 +55,7 @@ test.serial("killShell() should kill subprocesses", async (t) => {
   t.timeout(10_000);
 
   await Promise.allSettled([
-    shell("sleep 30 & sleep 30"),
+    shell(`${SLEEP} 30 && echo Slept 30s.`),
     new Promise(
       (resolve) => {
         setTimeout(
