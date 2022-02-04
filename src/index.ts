@@ -101,11 +101,7 @@ export const shell = async (...cmds: string[]) => {
 
 export const killShell: child_process.ChildProcess["kill"] = (signal) => {
   if (childProcess?.pid) {
-    if (process.platform === "win32") {
-      exec(`taskkill /PID ${childProcess.pid} /T /F`);
-    } else {
-      return childProcess.kill(signal || "SIGTERM");
-    }
+    return childProcess.kill(signal || "SIGTERM");
   }
 
   return false;
