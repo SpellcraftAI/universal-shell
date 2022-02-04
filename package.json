@@ -21,7 +21,7 @@
     "prepublishOnly": "tsmodule build"
   },
   "devDependencies": {
-    "@tsmodule/tsmodule": "^10.3.0"
+    "@tsmodule/tsmodule": "^14.0.0"
   },
   "ava": {
     "files": [
