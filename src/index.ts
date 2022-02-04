@@ -14,10 +14,7 @@ const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
   detached: true,
-  env: {
-    NODE_ENV: process.env.NODE_ENV,
-    PATH: process.env.PATH
-  },
+  env: process.env,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
