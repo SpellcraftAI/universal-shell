@@ -35,5 +35,7 @@
       "--loader=@tsmodule/tsmodule"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "await-shell": "^10.0.0"
+  }
 }
