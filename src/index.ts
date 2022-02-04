@@ -6,7 +6,7 @@
 import chalk from "chalk";
 
 import { SpawnOptions } from "child_process";
-import kill from "tree-kill";
+import { exec } from "child_process";
 import { spawn } from "cross-spawn";
 
 const DEFAULTS: SpawnOptions = {
@@ -102,7 +102,11 @@ export const shell = async (...cmds: string[]) => {
 
 export const killShell: child_process.ChildProcess["kill"] = (signal) => {
   if (childProcess?.pid) {
-    kill(childProcess.pid, signal);
+    if (process.platform === "win32") {
+      exec(`taskkill /PID ${childProcess.pid} /T /F`);
+    } else {
+      return process.kill(-childProcess.pid, signal || "SIGINT");
+    }
   }
 
   return false;
