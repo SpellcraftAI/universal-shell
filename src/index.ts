@@ -103,7 +103,7 @@ export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGTERM"
     if (process.platform === "win32") {
       return childProcess.kill(signal);
     } else {
-      return process.kill(-childProcess.pid, signal);
+      return process.kill(childProcess.pid, signal);
     }
   }
 
