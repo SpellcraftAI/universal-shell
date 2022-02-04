@@ -101,10 +101,10 @@ export const shell = async (...cmds: string[]) => {
   if (global.SHELL_LOG) console.log();
 };
 
-export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGTERM") => {
+export const killShell: child_process.ChildProcess["kill"] = (signal = "SIGKILL") => {
   if (childProcess?.pid) {
     if (WINDOWS) {
-      return childProcess.kill(signal);
+      return process.kill(childProcess.pid, signal);
     } else {
       process.kill(-childProcess.pid, signal);
       return true;
