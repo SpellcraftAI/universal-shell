@@ -5,6 +5,6 @@ spawnSync(
   ["-e", "'while(true){}'"],
   {
     shell: true,
-    detached: true,
+    detached: false,
   }
 );

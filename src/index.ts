@@ -13,8 +13,12 @@ const WINDOWS = process.platform === "win32";
 const DEFAULTS: SpawnOptions = {
   shell: true,
   stdio: "inherit",
-  detached: true,
-  env: process.env,
+  detached: !WINDOWS,
+  env: {
+    NODE_ENV: process.env.NODE_ENV,
+    PATH: process.env.PATH,
+    TERM: process.env.TERM
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
