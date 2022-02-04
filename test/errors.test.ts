@@ -2,7 +2,7 @@ import { shell, killShell } from "../src";
 import test from "ava";
 
 
-const SLEEP = process.platform === "win32" ? "ping 127.0.0.1 -n1 -w 30000 >NUL" : "sleep 30";
+const SLEEP = process.platform === "win32" ? "timeout /t 30 /nobreak > NUL" : "sleep 30";
 
 test.serial("should not throw for exit code 0", async (t) => {
   if (process.platform !== "win32") {
