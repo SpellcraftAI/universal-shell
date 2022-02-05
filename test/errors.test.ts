@@ -36,9 +36,9 @@ test.serial("should throw for exit code 1 on Windows", async(t) => {
   if (process.platform === "win32") {
     try {
       await shell("exit 1");
-      t.pass();
-    } catch (e) {
       t.fail();
+    } catch (e) {
+      t.pass();
     }
   } else {
     t.pass();
