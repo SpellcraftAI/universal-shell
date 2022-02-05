@@ -23,6 +23,7 @@ test.serial("should not throw for exit code 1 on non-Windows", async (t) => {
   if (process.platform !== "win32") {
     try {
       await shell("exit 1");
+      t.pass();
     } catch (e) {
       return t.fail();
     }
