@@ -97,7 +97,7 @@ export const shell = async (...cmds: string[]) => {
           "exit",
           (code) => {
             childProcess = undefined;
-            if (code === 0 || code === 1) resolve(code);
+            if (code === 0) resolve(code);
             else {
               if (global.SHELL_STRICT) {
                 process.exit(1);

@@ -2,6 +2,8 @@ import { URL, fileURLToPath } from "url";
 import { shell, killShell } from "../src";
 import test from "ava";
 
+globalThis.SHELL_LOG = true;
+
 // @ts-ignore - Fix later
 const subprocessFile = new URL("./subprocess.js", import.meta.url);
 const subprocessPath = fileURLToPath(subprocessFile);
@@ -19,11 +21,17 @@ test.serial("should not throw for exit code 0", async (t) => {
 
 test.serial("should throw for other exit codes", async (t) => {
   try {
-    globalThis.SHELL_LOG = true;
-    await shell("exit 1", "exit 2");
+    await shell("exit 1");
   } catch (e) {
     return t.pass();
   }
+
+  try {
+    await shell("exit 1");
+  } catch (e) {
+    return t.pass();
+  }
+
   t.fail();
 });
 
