@@ -19,15 +19,33 @@ test.serial("should not throw for exit code 0", async (t) => {
   t.pass();
 });
 
+test.serial("should not throw for exit code 1 on non-Windows", async (t) => {
+  if (process.platform !== "win32") {
+    try {
+      await shell("exit 1");
+    } catch (e) {
+      return t.fail();
+    }
+    t.pass();
+  }
+});
+
+test.serial("should throw for exit code 1 on Windows", async(t) => {
+  if (process.platform === "win32") {
+    try {
+      await shell("exit 1");
+      t.pass();
+    } catch (e) {
+      t.fail();
+    }
+  } else {
+    t.pass();
+  }
+});
+
 test.serial("should throw for other exit codes", async (t) => {
   try {
-    await shell("exit 1");
-  } catch (e) {
-    return t.pass();
-  }
-
-  try {
-    await shell("exit 1");
+    await shell("exit 2");
   } catch (e) {
     return t.pass();
   }

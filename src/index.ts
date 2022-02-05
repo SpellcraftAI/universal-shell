@@ -97,8 +97,11 @@ export const shell = async (...cmds: string[]) => {
           "exit",
           (code) => {
             childProcess = undefined;
-            if (code === 0) resolve(code);
-            else {
+            if (code === 0) {
+              resolve(code);
+            } else if (process.platform !== "win32" && code === 1) {
+              resolve(code);
+            } else {
               if (global.SHELL_STRICT) {
                 process.exit(1);
               } else {
