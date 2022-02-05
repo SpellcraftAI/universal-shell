@@ -28,6 +28,7 @@ let childProcess: ReturnType<typeof child_process.spawn> | undefined;
 
 const WINDOWS_CMDS: Record<string, string> = {
   yarn: "yarn.cmd",
+  clear: "cls",
 };
 
 /**
