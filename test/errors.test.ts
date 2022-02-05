@@ -26,6 +26,7 @@ test.serial("should not throw for exit code 1 on non-Windows", async (t) => {
     } catch (e) {
       return t.fail();
     }
+  } else {
     t.pass();
   }
 });
