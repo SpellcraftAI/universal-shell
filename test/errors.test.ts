@@ -6,7 +6,7 @@ import test from "ava";
 const subprocessFile = new URL("./subprocess.js", import.meta.url);
 const subprocessPath = fileURLToPath(subprocessFile);
 
-const SLEEP = "node -e 'while(true){}'";
+const SLEEP = "node -e \"while(true){}\"";
 
 test.serial("should not throw for exit code 0", async (t) => {
   const shell = createShell();
