@@ -1,4 +1,5 @@
 import { URL, fileURLToPath } from "url";
+import { EOL } from "os";
 import { createShell } from "../src";
 import test from "ava";
 
@@ -6,6 +7,7 @@ import test from "ava";
 const subprocessFile = new URL("./subprocess.js", import.meta.url);
 const subprocessPath = fileURLToPath(subprocessFile);
 
+const WINDOWS = process.platform === "win32";
 const SLEEP = "node -e \"while(true){}\"";
 
 test("should not throw for exit code 0", async (t) => {
@@ -57,6 +59,65 @@ test("should throw for other exit codes", async (t) => {
   }
 
   t.fail();
+});
+
+test("exit codes should match", async (t) => {
+  const shell = createShell();
+
+  const exit0 = await shell.run("exit 0");
+  t.is(exit0.code, 0);
+
+  try {
+    await shell.run("exit 1");
+  } catch (e) {
+    t.is(e.code, 1);
+  }
+
+  try {
+    await shell.run("exit 2");
+  } catch (e) {
+    t.is(e.code, 2);
+  }
+
+  try {
+    await shell.run("exit 25");
+  } catch (e) {
+    t.is(e.code, 25);
+  }
+});
+
+test("should support concurrent shells", async (t) => {
+  const [sh1, sh2] = [createShell(), createShell()];
+  const [exit0, exit1] = await Promise.allSettled([
+    sh1.run("exit 0"),
+    sh2.run("exit 1"),
+  ]);
+
+  t.is(exit0.status, "fulfilled");
+  t.is(exit1.status, WINDOWS ? "rejected" : "fulfilled");
+
+  if (exit0.status === "fulfilled") {
+    t.is(exit0.value.code, 0);
+  } else {
+    t.fail();
+  }
+
+  if (exit1.status === "fulfilled") {
+    if (WINDOWS) {
+      t.fail();
+    }
+
+    t.is(exit1.value.code, 1);
+  }
+});
+
+test.skip("should return proper { code, stdin, stderr } values", async (t) => {
+  const shell = createShell();
+  const { code, stdout, stderr } = await shell.run("echo hello world");
+
+  t.is(code, 0);
+  t.is(stdout, `hello world${EOL}`);
+  t.is(stderr, "");
 });
 
 test.serial("killShell() should cause promise to resolve", async (t) => {
