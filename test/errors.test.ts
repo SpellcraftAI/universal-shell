@@ -8,7 +8,7 @@ const subprocessPath = fileURLToPath(subprocessFile);
 
 const SLEEP = "node -e \"while(true){}\"";
 
-test.serial("should not throw for exit code 0", async (t) => {
+test("should not throw for exit code 0", async (t) => {
   const shell = createShell();
   try {
     await shell.run("exit 0");
@@ -18,7 +18,7 @@ test.serial("should not throw for exit code 0", async (t) => {
   t.pass();
 });
 
-test.serial("should not throw for exit code 1 on non-Windows", async (t) => {
+test("should not throw for exit code 1 on non-Windows", async (t) => {
   const shell = createShell();
 
   if (process.platform !== "win32") {
@@ -33,7 +33,7 @@ test.serial("should not throw for exit code 1 on non-Windows", async (t) => {
   }
 });
 
-test.serial("should throw for exit code 1 on Windows", async(t) => {
+test("should throw for exit code 1 on Windows", async(t) => {
   const shell = createShell();
 
   if (process.platform === "win32") {
@@ -48,7 +48,7 @@ test.serial("should throw for exit code 1 on Windows", async(t) => {
   }
 });
 
-test.serial("should throw for other exit codes", async (t) => {
+test("should throw for other exit codes", async (t) => {
   const shell = createShell();
   try {
     await shell.run("exit 2");
