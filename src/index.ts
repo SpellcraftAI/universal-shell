@@ -46,7 +46,7 @@ export const createShell = ({
 
       if (log) {
         // eslint-disable-next-line no-console
-        console.log(chalk.gray(`> ${commandString}`));
+        console.log(chalk.dim(`\n$ ${commandString}\n`));
       }
 
       return await new Promise<SpawnResult>(
@@ -63,6 +63,7 @@ export const createShell = ({
           this.childProcess.stderr?.on("data", (data) => stderr += data);
 
           const resolveResult = (code: number) => {
+            this.childProcess = null;
             const spawnResult = {
               code,
               stdout,
