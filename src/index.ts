@@ -1,17 +1,6 @@
-import type { ChildProcess, SpawnOptions } from "child_process";
+import { CreateShellOptions, Shell, SpawnOptions, SpawnResult } from "./types";
 import { spawn, execSync } from "child_process";
 import chalk from "chalk";
-
-interface SpawnResult {
-  code: number | null;
-  stdout: string;
-  stderr: string;
-}
-
-interface CreateShellOptions {
-  log: boolean;
-  spawnOptions: SpawnOptions;
-}
 
 const WINDOWS = process.platform === "win32";
 
@@ -27,12 +16,6 @@ const DEFAULT_SHELL_OPTIONS: CreateShellOptions = {
   spawnOptions: DEFAULT_SPAWN_OPTIONS,
 };
 
-interface Shell {
-  run(commandString: string): Promise<SpawnResult>;
-  kill(): boolean;
-  childProcess: ChildProcess | null;
-}
-
 export const createShell = ({
   log,
   spawnOptions,
@@ -40,12 +23,6 @@ export const createShell = ({
   return {
     childProcess: null,
     async run(commandString) {
-      /**
-       * Replace single-quotes with double quotes on Windows.
-       */
-      // if (WINDOWS) {
-      //   commandString = commandString.replaceAll("'", "\"");
-      // }
 
       if (this.childProcess) {
         throw new Error("Only one command per shell.");
@@ -121,3 +98,5 @@ export const createShell = ({
     }
   };
 };
+
+export * from "./types";
