@@ -82,18 +82,18 @@ export const createShell = ({
 
           childProcess.on("close", resolveResult);
           childProcess.on("exit", resolveResult);
+          childProcess.on("error", resolveResult);
         }
       );
     },
 
-    async kill(signal = "SIGKILL") {
+    kill(signal = "SIGKILL") {
       if (childProcess?.pid) {
         /**
          * In Windows, we need to hack in a small delay.
          */
         if (WINDOWS) {
           execSync(`taskkill /pid ${childProcess.pid} /t /f`);
-          return await new Promise((resolve) => setTimeout(resolve, 1200));
         } else {
           process.kill(-childProcess.pid, signal);
         }
