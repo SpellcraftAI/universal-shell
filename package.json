@@ -1,7 +1,7 @@
 {
   "name": "await-shell",
   "type": "module",
-  "version": "25.1.0",
+  "version": "26.1.0",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
@@ -15,6 +15,7 @@
   "scripts": {
     "build": "tsmodule build",
     "dev": "tsmodule dev",
+    "pretest": "tsmodule build -f",
     "test": "ava",
     "lint": "eslint src --fix",
     "prepare": "tsmodule build --fast",

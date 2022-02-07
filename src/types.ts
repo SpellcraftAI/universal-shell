@@ -13,7 +13,7 @@ export interface CreateShellOptions {
 
 export interface Shell {
   run(commandString: string): Promise<SpawnResult>;
-  kill(): boolean;
+  kill(): Promise<boolean>;
   childProcess: ChildProcess | null;
 }
 

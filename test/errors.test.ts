@@ -121,7 +121,7 @@ test.skip("should return proper { code, stdin, stderr } values", async (t) => {
 });
 
 test.serial("killShell() should cause promise to resolve", async (t) => {
-  t.timeout(2000);
+  t.timeout(5000);
   const shell = createShell();
 
   await Promise.allSettled([
@@ -129,8 +129,8 @@ test.serial("killShell() should cause promise to resolve", async (t) => {
     new Promise(
       (resolve) => {
         setTimeout(
-          () => {
-            const killed = shell.kill();
+          async () => {
+            const killed = await shell.kill();
             resolve(killed);
           },
           1000
@@ -142,7 +142,7 @@ test.serial("killShell() should cause promise to resolve", async (t) => {
 });
 
 test.serial("killShell() should kill subprocesses", async (t) => {
-  t.timeout(2000);
+  t.timeout(5000);
   const shell = createShell();
 
   await Promise.allSettled([
@@ -150,8 +150,8 @@ test.serial("killShell() should kill subprocesses", async (t) => {
     new Promise(
       (resolve) => {
         setTimeout(
-          () => {
-            const killed = shell.kill();
+          async () => {
+            const killed = await shell.kill();
             resolve(killed);
           },
           1000

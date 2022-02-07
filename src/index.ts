@@ -1,5 +1,5 @@
 import { CreateShellOptions, Shell, SpawnOptions, SpawnResult } from "./types";
-import { spawn, execSync } from "child_process";
+import { spawn, execSync, ChildProcess } from "child_process";
 import chalk from "chalk";
 
 const WINDOWS = process.platform === "win32";
@@ -20,11 +20,12 @@ export const createShell = ({
   log,
   spawnOptions,
 } = DEFAULT_SHELL_OPTIONS): Shell => {
+  let childProcess: ChildProcess | null = null;
   return {
-    childProcess: null,
+    childProcess,
     async run(commandString) {
 
-      if (this.childProcess) {
+      if (childProcess) {
         throw new Error("Only one command per shell.");
       }
 
@@ -51,19 +52,19 @@ export const createShell = ({
 
       return await new Promise<SpawnResult>(
         (resolve, reject) => {
-          this.childProcess = spawn(cmd, args, spawnOptions);
+          childProcess = spawn(cmd, args, spawnOptions);
           let stdout = "";
           let stderr = "";
 
-          if (!this.childProcess) {
+          if (!childProcess) {
             throw new Error("Child process was not set.");
           }
 
-          this.childProcess.stdout?.on("data", (data) => stdout += data);
-          this.childProcess.stderr?.on("data", (data) => stderr += data);
+          childProcess.stdout?.on("data", (data) => stdout += data);
+          childProcess.stderr?.on("data", (data) => stderr += data);
 
           const resolveResult = (code: number) => {
-            this.childProcess = null;
+            childProcess = null;
             const spawnResult = {
               code,
               stdout,
@@ -79,23 +80,26 @@ export const createShell = ({
             }
           };
 
-          this.childProcess.on("close", resolveResult);
-          this.childProcess.on("exit", resolveResult);
+          childProcess.on("close", resolveResult);
+          childProcess.on("exit", resolveResult);
         }
       );
     },
 
-    kill(signal = "SIGKILL") {
-      if (this.childProcess?.pid) {
+    async kill(signal = "SIGKILL") {
+      if (childProcess?.pid) {
+        /**
+         * In Windows, we need to hack in a small delay.
+         */
         if (WINDOWS) {
-          execSync(`taskkill /pid ${this.childProcess.pid} /t /f`);
-          return true;
+          execSync(`taskkill /pid ${childProcess.pid} /t /f`);
+          return await new Promise((resolve) => setTimeout(resolve, 1200));
         } else {
-          return process.kill(-this.childProcess.pid, signal);
+          process.kill(-childProcess.pid, signal);
         }
       }
 
-      return false;
+      return true;
     }
   };
 };
