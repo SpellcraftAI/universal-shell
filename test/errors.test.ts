@@ -130,7 +130,7 @@ test.serial("killShell() should cause promise to resolve", async (t) => {
       (resolve) => {
         setTimeout(
           async () => {
-            const killed = await shell.kill();
+            const killed = shell.kill();
             resolve(killed);
           },
           1000
@@ -151,7 +151,7 @@ test.serial("killShell() should kill subprocesses", async (t) => {
       (resolve) => {
         setTimeout(
           async () => {
-            const killed = await shell.kill();
+            const killed = shell.kill();
             resolve(killed);
           },
           1000
