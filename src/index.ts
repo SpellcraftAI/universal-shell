@@ -5,7 +5,7 @@ import chalk from "chalk";
 const WINDOWS = process.platform === "win32";
 
 const DEFAULT_SPAWN_OPTIONS: SpawnOptions = {
-  stdio: "inherit",
+  stdio: "pipe",
   shell: true,
   detached: !WINDOWS,
   env: process.env,
@@ -60,9 +60,6 @@ export const createShell = ({
             throw new Error("Child process was not set.");
           }
 
-          childProcess.stdout?.on("data", (data) => stdout += data);
-          childProcess.stderr?.on("data", (data) => stderr += data);
-
           const resolveResult = (code: number) => {
             childProcess = null;
             const spawnResult = {
@@ -80,9 +77,25 @@ export const createShell = ({
             }
           };
 
+          childProcess.stdout?.on("data", (data: Buffer) => {
+            stdout += data.toString();
+          });
+
+          childProcess.stderr?.on("data", (data: Buffer) => {
+            stderr += data.toString();
+          });
+
           childProcess.on("close", resolveResult);
           childProcess.on("exit", resolveResult);
           childProcess.on("error", resolveResult);
+
+          // process.stdout.pipe(childProcess.stdout);
+
+          /**
+           * Emulate { stdio: "inherit" } behavior.
+           */
+          childProcess.stdout?.pipe(process.stdout);
+          childProcess.stderr?.pipe(process.stderr);
         }
       );
     },
@@ -95,7 +108,10 @@ export const createShell = ({
         if (WINDOWS) {
           execSync(`taskkill /pid ${childProcess.pid} /t /f`);
         } else {
-          process.kill(-childProcess.pid, signal);
+          return process.kill(
+            -childProcess.pid,
+            signal
+          );
         }
       }
 
