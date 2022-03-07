@@ -1,5 +1,6 @@
 {
   "name": "await-shell",
+  "description": "Cross-platform async shell support for POSIX commands on Linux, MacOS, and Windows.",
   "type": "module",
   "version": "30.0.0",
   "license": "MIT",

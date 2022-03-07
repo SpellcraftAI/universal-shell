@@ -1,7 +1,7 @@
-import { CreateShellOptions, Platform, Shell, SpawnOptions, SpawnResult } from "./types";
+import { CommandTranslations, ShellTranslations, translateForPlatform } from "./platform";
+import { Platform, ShellCommand, SpawnOptions, SpawnResult } from "./types";
 import { spawn, execSync, ChildProcess } from "child_process";
 import chalk from "chalk";
-import { translateForPlatform } from "./platform";
 
 const POSIX = process.platform === "linux" || process.platform === "darwin";
 const WINDOWS = process.platform === "win32";
@@ -15,6 +15,8 @@ const DEFAULT_SPAWN_OPTIONS: SpawnOptions = {
 
 const DEFAULT_SHELL_OPTIONS: CreateShellOptions = {
   log: true,
+  commandTranslations: {},
+  shellTranslations: {},
   ...DEFAULT_SPAWN_OPTIONS,
 };
 
@@ -22,7 +24,9 @@ const DEFAULT_SHELL_OPTIONS: CreateShellOptions = {
  * Create a new shell.
  */
 export const createShell = ({
-  log,
+  log = true,
+  commandTranslations: customCommandTranslations = {},
+  shellTranslations: customShellTranslations = {},
   ...spawnOptions
 } = DEFAULT_SHELL_OPTIONS): Shell => {
   let childProcess: ChildProcess | null = null;
@@ -54,7 +58,12 @@ export const createShell = ({
         command = platformCommand;
       }
 
-      const { cmd, args } = translateForPlatform(command);
+      const { cmd, args } = translateForPlatform(
+        command,
+        customShellTranslations,
+        customCommandTranslations,
+      );
+
       if (log) {
         // eslint-disable-next-line no-console
         console.log(chalk.dim(`\n$ ${command}\n`));
@@ -129,3 +138,18 @@ export const createShell = ({
 };
 
 export * from "./types";
+
+export interface CreateShellOptions extends SpawnOptions {
+  /**
+   * Whether to log the command to the console.
+   */
+  log?: boolean;
+  shellTranslations?: ShellTranslations;
+  commandTranslations?: CommandTranslations;
+}
+
+export interface Shell {
+  run(command: ShellCommand): Promise<SpawnResult>;
+  kill(): boolean;
+  childProcess: ChildProcess | null;
+}
