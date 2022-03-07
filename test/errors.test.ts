@@ -112,7 +112,7 @@ test("should support concurrent shells", async (t) => {
   }
 });
 
-test("should return proper { code, stdin, stderr } values", async (t) => {
+test.serial("should return proper { code, stdin, stderr } values", async (t) => {
   const shell = createShell();
   const { code, stdout, stderr } = await shell.run("echo hello world");
 
