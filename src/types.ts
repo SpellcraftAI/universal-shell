@@ -13,10 +13,29 @@ export interface CreateShellOptions extends SpawnOptions {
   log?: boolean;
 }
 
+export type Platform = "posix" | NodeJS.Process["platform"];
+
+export type PlatformCommand = {
+  [platform in Platform]?: string;
+};
+
+export type ShellCommand = string | PlatformCommand;
+
 export interface Shell {
-  run(commandString: string): Promise<SpawnResult>;
+  run(command: ShellCommand): Promise<SpawnResult>;
   kill(): boolean;
   childProcess: ChildProcess | null;
 }
 
 export type { SpawnOptions } from "child_process";
+
+export type OriginalCommand = string;
+export type TranslatedCommand = string;
+
+export type CommandTranslation = {
+  [platform in NodeJS.Process["platform"]]?: TranslatedCommand;
+};
+
+export interface CommandTranslations {
+  [cmd: OriginalCommand]: CommandTranslation;
+}

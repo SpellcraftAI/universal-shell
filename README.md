@@ -28,6 +28,24 @@ await shell.run(
 );
 ```
 
+#### Override per-platform
+
+You can override the command to run per-platform in `shell.run(...)`.
+
+```ts
+const shell = createShell();
+
+/**
+ * All process.platform types are supported, i.e. "win32" and "darwin".
+ * 
+ * "posix" matches "linux" and "darwin".
+ */ 
+await shell.run({
+  win32: "...",
+  posix: "..."
+});
+```
+
 #### Custom options
 
 You can pass custom spawn options to `createShell({ ... })`.

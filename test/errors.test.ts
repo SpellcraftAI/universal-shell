@@ -1,5 +1,6 @@
 import { URL, fileURLToPath } from "url";
 import { EOL } from "os";
+import { Platform } from "../src/types";
 import { createShell } from "../src";
 import test from "ava";
 
@@ -118,6 +119,55 @@ test("should return proper { code, stdin, stderr } values", async (t) => {
   t.is(code, 0);
   t.is(stdout, `hello world${EOL}`);
   t.is(stderr, "");
+});
+
+interface PlatformTest {
+  platform: NodeJS.Process["platform"];
+  target: Platform;
+}
+
+test.serial("should support platform-specific overrides", async (t) => {
+  if (process.platform === "win32") {
+    return t.pass("Skipping on Windows.");
+  }
+
+  const oldProcess = process;
+  const platformTests: PlatformTest[] = [
+    {
+      platform: "darwin",
+      target: "darwin"
+    },
+    {
+      platform: "linux",
+      target: "posix"
+    },
+    {
+      platform: "darwin",
+      target: "posix"
+    }
+  ];
+
+  for (const platformTest of platformTests) {
+    const shell = createShell();
+    const { platform, target } = platformTest;
+
+    process = {
+      ...oldProcess,
+      platform,
+    };
+
+    const { stdout } = await shell.run({
+      [target]: `echo 'hello ${platform}'`,
+    });
+
+    t.is(
+      stdout,
+      `hello ${platform}${EOL}`,
+      `should use ${platform} command for target ${target}`
+    );
+  }
+
+  process = oldProcess;
 });
 
 test.serial("killShell() should cause promise to resolve", async (t) => {

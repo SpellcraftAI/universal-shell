@@ -1,13 +1,4 @@
-type OriginalCommand = string;
-type TranslatedCommand = string;
-
-type CommandTranslation = {
-  [platform in NodeJS.Process["platform"]]?: TranslatedCommand;
-};
-
-interface CommandTranslations {
-  [cmd: OriginalCommand]: CommandTranslation;
-}
+import { CommandTranslations } from "./types";
 
 export const platformTranslations: CommandTranslations = {
   "cp -rf": {

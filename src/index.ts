@@ -1,8 +1,9 @@
-import { CreateShellOptions, Shell, SpawnOptions, SpawnResult } from "./types";
+import { CreateShellOptions, Platform, Shell, SpawnOptions, SpawnResult } from "./types";
 import { spawn, execSync, ChildProcess } from "child_process";
 import chalk from "chalk";
 import { translateForPlatform } from "./platform";
 
+const POSIX = process.platform === "linux" || process.platform === "darwin";
 const WINDOWS = process.platform === "win32";
 
 const DEFAULT_SPAWN_OPTIONS: SpawnOptions = {
@@ -28,15 +29,35 @@ export const createShell = ({
 
   return {
     childProcess,
-    async run(commandString) {
+    async run(command) {
       if (childProcess) {
         throw new Error("Only one command per shell.");
       }
 
-      const { cmd, args } = translateForPlatform(commandString);
+      if (typeof command === "object") {
+        let platform: Platform = process.platform;
+
+        if (command["posix"] && POSIX) {
+          platform = "posix";
+        }
+
+        const platformCommand = command[platform];
+        if (!platformCommand) {
+          throw new Error(
+            "No command found for platform: " + JSON.stringify({
+              platform: process.platform,
+              command,
+            })
+          );
+        }
+
+        command = platformCommand;
+      }
+
+      const { cmd, args } = translateForPlatform(command);
       if (log) {
         // eslint-disable-next-line no-console
-        console.log(chalk.dim(`\n$ ${commandString}\n`));
+        console.log(chalk.dim(`\n$ ${command}\n`));
       }
 
       return await new Promise<SpawnResult>(
