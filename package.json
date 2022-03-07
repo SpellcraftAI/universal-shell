@@ -15,14 +15,14 @@
   "scripts": {
     "build": "tsmodule build",
     "dev": "tsmodule dev",
-    "pretest": "tsmodule build -f",
+    "pretest": "tsmodule build -r",
     "test": "ava",
     "lint": "eslint src --fix",
-    "prepare": "tsmodule build --fast",
+    "prepare": "tsmodule build -r",
     "prepublishOnly": "tsmodule build"
   },
   "devDependencies": {
-    "@tsmodule/tsmodule": "^15.1.0"
+    "@tsmodule/tsmodule": "^20.0.1"
   },
   "ava": {
     "files": [

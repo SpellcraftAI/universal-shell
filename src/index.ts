@@ -1,6 +1,7 @@
 import { CreateShellOptions, Shell, SpawnOptions, SpawnResult } from "./types";
 import { spawn, execSync, ChildProcess } from "child_process";
 import chalk from "chalk";
+import { translateForPlatform } from "./platform";
 
 const WINDOWS = process.platform === "win32";
 
@@ -13,38 +14,26 @@ const DEFAULT_SPAWN_OPTIONS: SpawnOptions = {
 
 const DEFAULT_SHELL_OPTIONS: CreateShellOptions = {
   log: true,
-  spawnOptions: DEFAULT_SPAWN_OPTIONS,
+  ...DEFAULT_SPAWN_OPTIONS,
 };
 
+/**
+ * Create a new shell.
+ */
 export const createShell = ({
   log,
-  spawnOptions,
+  ...spawnOptions
 } = DEFAULT_SHELL_OPTIONS): Shell => {
   let childProcess: ChildProcess | null = null;
+
   return {
     childProcess,
     async run(commandString) {
-
       if (childProcess) {
         throw new Error("Only one command per shell.");
       }
 
-      let cmd: string;
-      let args: string[];
-
-      switch (process.platform) {
-        case "win32":
-          cmd = "cmd.exe";
-          args = ["/d", "/s", "/c", commandString];
-          break;
-
-        default:
-          const cmdParts = commandString.split(" ");
-          cmd = cmdParts[0];
-          args = cmdParts.slice(1);
-          break;
-      }
-
+      const { cmd, args } = translateForPlatform(commandString);
       if (log) {
         // eslint-disable-next-line no-console
         console.log(chalk.dim(`\n$ ${commandString}\n`));
@@ -88,8 +77,6 @@ export const createShell = ({
           childProcess.on("close", resolveResult);
           childProcess.on("exit", resolveResult);
           childProcess.on("error", resolveResult);
-
-          // process.stdout.pipe(childProcess.stdout);
 
           /**
            * Emulate { stdio: "inherit" } behavior.

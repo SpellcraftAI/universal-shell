@@ -6,9 +6,11 @@ export interface SpawnResult {
   stderr: string;
 }
 
-export interface CreateShellOptions {
-  log: boolean;
-  spawnOptions: SpawnOptions;
+export interface CreateShellOptions extends SpawnOptions {
+  /**
+   * Whether to log the command to the console.
+   */
+  log?: boolean;
 }
 
 export interface Shell {

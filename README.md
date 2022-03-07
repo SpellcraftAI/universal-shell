@@ -1,97 +1,65 @@
-# await-shell
-A simple utility for using `child_process.spawn` inside of a Promise wrapper.
+# `await-shell`
 
-Allows for the `await shell(...)` pattern, initially developed to play nice with the `ora` package, i.e.:
+Library for calling POSIX-style shell commands cross-platform. Automatically
+translates commands for Windows support out of the box.
 
-```javascript
-const ora = require('ora');
-const shell = require('await-shell');
+`shell.run()` returns a Promise that will resolve or reject to an object
+containing process information of form `{ code, stdout, stderr }`.
 
-async function test() {
-  const spinner = ora('Starting...').start();
+### Pattern
 
-  try {
-    await shell('do-task arg1 arg2');
-  } catch (e) {
-    return spinner.fail('Something went wrong!');
-  }
+```ts
+/**
+ * Create a new process where shells will run.
+ */
+const shell = createShell();
 
-  spinner.succeed('All done!');
-}
-```
+/**
+ * Works on Windows! See "Specification" below.
+ */
+const { code, stdout, stderr } = await shell.run("cp -rf src dest");
 
-# Examples
-
-Will call bash (non-blocking) and run the spinner for 1 second, then exit:
-
-```javascript
-const spinner = ora('Waiting...').start();
-await shell('sleep 1');
-spinner.succeed('All done!');
-```
-
-Running sequential commands:
-
-```javascript
-const spinner = ora('Waiting...').start();
-await shell(
-  'echo "Hello"',
-  'echo "World"'
+/**
+ * Run sequential commands.
+ */
+await shell.run(
+  "cd dir && yarn do_stuff",
+  "cd otherDir && yarn do_stuff"
 );
-spinner.succeed('All done!');
 ```
 
-Output:
+#### Custom options
 
-```
-"Hello"
-"World"
-✔ All done!
-```
+You can pass custom spawn options to `createShell({ ... })`.
 
-# Source
-
-The package simply wraps the `child_process.spawn` call in a Promise which is
-resolved on exit and rejected on error.  Multiple commands may be passed in, and
-they will be executed in sequential order.
-
-`index.js`
-```javascript
-const shell = async (...cmds) => {
-  for (let cmd of cmds) {
-    cmd = cmd.split(' ');
-    await new Promise((resolve, reject) => {
-      spawn(cmd.shift(), cmd, global.SHELL_OPTIONS || DEFAULTS)
-      .on(
-        'exit',
-        (code) => {
-          if (code === 0) resolve();
-          else {
-            if (global.SHELL_STRICT) {
-              process.exit(1);
-            } else {
-              reject(new Error('Exited with code: ' + code));
-            }
-          }
-        }
-      );
-    });
-  }
-}
+```ts
+/**
+ * Disable logging of commands and pass custom spawn options. 
+ */
+const customShell = createShell({
+  log: false,
+  // Custom process.spawn() options.
+  stdio: 'inherit',
+  // ...
+});
 ```
 
-# Footnotes and global options
+## Specification
 
-The options `{ stdio: 'inherit', shell: true }` are passed to `spawn` by default, and stdout
-will be visible. For the sake of simplicity, the only arguments `shell` takes
-are commands, but you can override this setting with `global.SHELL_OPTIONS` if
-necessary. 
+This section explains how shell command strings (like `"cd dir/"`) are
+supported on Windows, as well as translations for specific commands.
 
-Use `global.SHELL_LOG = true` to enable the printing of each command as it is
-executed.
+### Shell support
 
-| Flag        | Description |
-| ----------- | ----------- |
-| `global.SHELL_LOG`        | Set to `true` to print commands to stdout. |
-| `global.SHELL_OPTIONS`    | Override arguments to `child_process.spawn`. Defaults to `{ stdio: 'inherit', shell: true }`. |
-| `global.SHELL_STRICT`     | Instead of rejecting the Promise, call `process.exit(1)`. |
+| POSIX | Windows |
+| --- | --- |
+| Detached | Not detached |
+| `my-cmd [...args]` | `cmd.exe /d /s /c my-cmd [...args]` |
+
+### Specific commands
+
+| POSIX | Windows |
+| --- | --- |
+| `cp -rf [src] dest]` | `xcopy /E /S /G /Q /Y [src] [dest]` |
+| `pkill [pid]` | `taskkill /T /F /pid [pid]` |
+| `ln [link] [target]` | `mklink [link] [target]` |
