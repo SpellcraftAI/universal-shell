@@ -114,7 +114,7 @@ export const createShell = ({
          * In Windows, we need to hack in a small delay.
          */
         if (WINDOWS) {
-          execSync(`taskkill /pid ${childProcess.pid} /t /f`);
+          execSync(`taskkill /t /f /pid ${childProcess.pid}`);
         } else {
           return process.kill(
             -childProcess.pid,

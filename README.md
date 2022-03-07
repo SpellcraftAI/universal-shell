@@ -4,7 +4,15 @@ Library for calling POSIX-style shell commands cross-platform. Automatically
 translates commands for Windows support out of the box.
 
 `shell.run()` returns a Promise that will resolve or reject to an object
-containing process information of form `{ code, stdout, stderr }`.
+containing process information of type `SpawnResult`:
+
+```ts
+export interface SpawnResult {
+  code: number | null;
+  stdout: string;
+  stderr: string;
+}
+```
 
 ### Pattern
 
@@ -71,7 +79,7 @@ supported on Windows, as well as translations for specific commands.
 
 | POSIX | Windows |
 | --- | --- |
-| Detached | Not detached |
+| *Detached* | *Not detached* |
 | `my-cmd [...args]` | `cmd.exe /d /s /c my-cmd [...args]` |
 
 ### Specific commands
@@ -81,3 +89,14 @@ supported on Windows, as well as translations for specific commands.
 | `cp -rf [src] dest]` | `xcopy /E /S /G /Q /Y [src] [dest]` |
 | `pkill [pid]` | `taskkill /T /F /pid [pid]` |
 | `ln [link] [target]` | `mklink [link] [target]` |
+
+## Footnotes
+
+#### Quotes on Windows
+
+You should use single quotes in your strings if possible for interoperability
+with Windows.
+
+```ts
+await shell.run("my-cmd 'a string'");
+```
