@@ -23,9 +23,11 @@ export interface SpawnResult {
 const shell = createShell();
 
 /**
- * Works on Windows! See "Specification" below.
+ * Read the exit code, stdout, and stderr from shell.run().
+ * 
+ * Note: POSIX-like syntax works on Windows! See "Specification" below.
  */
-const { code, stdout, stderr } = await shell.run("cp -rf src dest");
+const { code, stdout, stderr } = await shell.run("cp -rf src dest && yarn --cwd dest some-command");
 
 /**
  * Run sequential commands.
@@ -48,7 +50,7 @@ const shell = createShell();
  * 
  * "posix" matches "linux" and "darwin".
  */ 
-await shell.run({
+const { code, stdout, stderr } = await shell.run({
   win32: "...",
   posix: "..."
 });
@@ -98,5 +100,5 @@ You should use single quotes in your strings if possible for interoperability
 with Windows.
 
 ```ts
-await shell.run("my-cmd 'a string'");
+const { code, stdout, stderr } = await shell.run("my-cmd 'a string'");
 ```
