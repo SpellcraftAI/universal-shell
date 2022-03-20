@@ -10,7 +10,6 @@ export const shellTranslations: ShellTranslations = {
 export const commandTranslations: CommandTranslations = {
   "cp -rf": {
     "win32": (args) => {
-      console.log({ args });
       const cmd = "xcopy /E /S /G /Q /Y";
       /**
        * Ensure dirs have trailing slashes.
