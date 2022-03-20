@@ -154,3 +154,5 @@ export interface Shell {
   kill(): boolean;
   childProcess: ChildProcess | null;
 }
+
+export * from "./types";
