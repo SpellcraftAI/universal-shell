@@ -2,7 +2,7 @@
   "name": "await-shell",
   "description": "Cross-platform async shell support for POSIX commands on Linux, MacOS, and Windows.",
   "type": "module",
-  "version": "34.0.2",
+  "version": "34.0.3",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
@@ -24,7 +24,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@tsmodule/tsmodule": "^31.1.0",
+    "@tsmodule/tsmodule": "^31.2.0",
+    "@types/node": "^17.0.21",
     "chalk": "^5.0.1"
   },
   "ava": {
