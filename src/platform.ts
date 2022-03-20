@@ -22,7 +22,7 @@ export const commandTranslations: CommandTranslations = {
        * xcopy handles folder contents, so drop trailing asterisk.
        */
       const argsWithoutAsterisk = argsWithTrailingSlashes.map(
-        (arg) => arg.replace(/\*(\\?)$/, "")
+        (arg) => arg.replace(/\*\\$/, "")
       );
 
       return `${cmd} ${argsWithoutAsterisk.join(" ")}`;
