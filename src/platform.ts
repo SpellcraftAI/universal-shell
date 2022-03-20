@@ -1,3 +1,5 @@
+import { CommandTranslations, ShellTranslations } from "./types";
+
 export const shellTranslations: ShellTranslations = {
   "win32": (commandString: string) => ({
     cmd: "cmd.exe",
@@ -7,13 +9,23 @@ export const shellTranslations: ShellTranslations = {
 
 export const commandTranslations: CommandTranslations = {
   "cp -rf": {
-    "win32": "xcopy /E /S /G /Q /Y"
+    "win32": (args) => {
+      const cmd = "xcopy /E /S /G /Q /Y";
+      /**
+       * Ensure dirs have trailing slashes.
+       */
+      const argsWithTrailingSlashes = args.map(
+        (arg) => arg.endsWith("\\") ? arg : `${arg}\\`
+      );
+
+      return `${cmd} ${argsWithTrailingSlashes.join(" ")}`;
+    },
   },
   "ln": {
-    "win32": "mklink"
+    "win32": (args) => `mklink /D ${args.join(" ")}`,
   },
   "pkill": {
-    "win32": "taskkill /T /F /pid"
+    "win32": (args) => `taskkill /T /F /pid ${args.join(" ")}`,
   },
 };
 
@@ -49,12 +61,14 @@ export const translateForPlatform = (
     for (const [command, translations] of activeTargets) {
       if (commandString.startsWith(command)) {
         const platform = process.platform;
-        const translation = translations[platform];
+        const translate = translations[platform];
 
-        if (!translation) {
+        if (!translate) {
           break;
         }
 
+        const args = commandString.slice(command.length).split(" ");
+        const translation = translate(args);
         return `${translation} ${commandString.slice(command.length)}`;
       }
     }
@@ -66,20 +80,4 @@ export const translateForPlatform = (
   const translatedShell = translateShell(translatedCommand);
 
   return translatedShell;
-};
-
-export type CommandTranslation = {
-  [platform in NodeJS.Process["platform"]]?: string;
-};
-
-export interface CommandTranslations {
-  [cmd: string]: CommandTranslation;
-}
-export interface SpawnCmdArgs {
-  cmd: string;
-  args: string[];
-}
-
-export type ShellTranslations = {
-  [platform in NodeJS.Process["platform"]]?: (commandString: string) => SpawnCmdArgs;
 };

@@ -12,3 +12,19 @@ export type PlatformCommand = {
 };
 
 export type ShellCommand = string | PlatformCommand;
+
+export type CommandTranslation = {
+  [platform in NodeJS.Process["platform"]]?: (args: string[]) => string;
+};
+
+export interface CommandTranslations {
+  [cmd: string]: CommandTranslation;
+}
+export interface SpawnCmdArgs {
+  cmd: string;
+  args: string[];
+}
+
+export type ShellTranslations = {
+  [platform in NodeJS.Process["platform"]]?: (commandString: string) => SpawnCmdArgs;
+};

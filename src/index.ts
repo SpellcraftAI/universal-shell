@@ -1,7 +1,8 @@
-import { CommandTranslations, ShellTranslations, translateForPlatform } from "./platform";
-import { Platform, ShellCommand, SpawnOptions, SpawnResult } from "./types";
 import { spawn, execSync, ChildProcess } from "child_process";
 import chalk from "chalk";
+
+import { CommandTranslations, Platform, ShellCommand, ShellTranslations, SpawnOptions, SpawnResult } from "./types";
+import { translateForPlatform } from "./platform";
 
 const POSIX = process.platform === "linux" || process.platform === "darwin";
 const WINDOWS = process.platform === "win32";
