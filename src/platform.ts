@@ -75,9 +75,8 @@ export const translateForPlatform = (
           break;
         }
 
-        const args = commandString.slice(command.length).split(" ");
-        const translation = translate(args);
-        return `${translation} ${commandString.slice(command.length)}`;
+        const args = commandString.slice(command.length).trim().split(" ");
+        return translate(args);
       }
     }
 
