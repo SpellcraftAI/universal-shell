@@ -67,7 +67,7 @@ export const createShell = ({
 
       if (shouldLog) {
         // eslint-disable-next-line no-console
-        log(`$ ${cmd} ${args.join(" ")}`, ["dim"]);
+        log(`$ ${cmd} ${args.join(" ")}`, ["dim"], { postLines: 1 });
       }
 
       return await new Promise<SpawnResult>(
