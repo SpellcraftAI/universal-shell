@@ -2,7 +2,7 @@
   "name": "universal-shell",
   "description": "Cross-platform async shell support for POSIX commands on Linux, MacOS, and Windows.",
   "type": "module",
-  "version": "35.0.2",
+  "version": "35.0.3",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
@@ -24,7 +24,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@tsmodule/log": "^2.1.1",
+    "@tsmodule/log": "^2.1.2",
     "@tsmodule/tsmodule": "^41.21.0",
     "@types/node": "^18.11.9",
     "ava": "^5.1.0"
