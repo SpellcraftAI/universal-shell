@@ -1,5 +1,5 @@
 import { spawn, execSync, ChildProcess } from "child_process";
-import chalk from "chalk";
+import { log } from "@tsmodule/log";
 
 import { CommandTranslations, Platform, ShellCommand, ShellTranslations, SpawnOptions, SpawnResult } from "./types";
 import { translateForPlatform } from "./platform";
@@ -25,7 +25,7 @@ const DEFAULT_SHELL_OPTIONS: CreateShellOptions = {
  * Create a new shell.
  */
 export const createShell = ({
-  log = true,
+  log: shouldLog = true,
   commandTranslations: customCommandTranslations = {},
   shellTranslations: customShellTranslations = {},
   ...spawnOptions
@@ -65,9 +65,9 @@ export const createShell = ({
         customCommandTranslations,
       );
 
-      if (log) {
+      if (shouldLog) {
         // eslint-disable-next-line no-console
-        console.log(chalk.dim(`\n$ ${cmd} ${args.join(" ")}\n`));
+        log(`$ ${cmd} ${args.join(" ")}`, ["dim"]);
       }
 
       return await new Promise<SpawnResult>(
