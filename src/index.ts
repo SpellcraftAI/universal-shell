@@ -1,5 +1,5 @@
 import { spawn, execSync, ChildProcess } from "child_process";
-import { log } from "@tsmodule/log";
+import { warn } from "@tsmodule/log";
 
 import { CommandTranslations, Platform, ShellCommand, ShellTranslations, SpawnOptions, SpawnResult } from "./types";
 import { translateForPlatform } from "./platform";
@@ -66,8 +66,7 @@ export const createShell = ({
       );
 
       if (shouldLog) {
-        // eslint-disable-next-line no-console
-        log(`$ ${cmd} ${args.join(" ")}`, ["dim"], { postLines: 1 });
+        warn(`$ ${cmd} ${args.join(" ")}`, ["dim"], { postLines: 1 });
       }
 
       return await new Promise<SpawnResult>(

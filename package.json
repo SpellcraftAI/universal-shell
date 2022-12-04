@@ -24,7 +24,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@tsmodule/log": "^2.1.3",
+    "@tsmodule/log": "^2.2.1",
     "@tsmodule/tsmodule": "^41.21.0",
     "@types/node": "^18.11.9",
     "ava": "^5.1.0"
