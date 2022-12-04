@@ -66,7 +66,7 @@ export const createShell = ({
       );
 
       if (shouldLog) {
-        warn(`$ ${cmd} ${args.join(" ")}`, ["dim"], { postLines: 1 });
+        warn(`$ ${cmd} ${args.join(" ")}`, ["dim"], { preLines: 1, postLines: 1 });
       }
 
       return await new Promise<SpawnResult>(
