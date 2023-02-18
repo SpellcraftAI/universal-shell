@@ -15,6 +15,11 @@ export interface CreateShellOptions extends SpawnOptions {
    * Whether to log the command to the console.
    */
   log?: boolean;
+  /**
+   * Whether to suppress non-error output.
+   */
+  silent?: boolean;
+
   shellTranslations?: ShellTranslations;
   commandTranslations?: CommandTranslations;
 }

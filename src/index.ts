@@ -16,6 +16,7 @@ const DEFAULT_SPAWN_OPTIONS: SpawnOptions = {
 
 const DEFAULT_SHELL_OPTIONS: CreateShellOptions = {
   log: true,
+  silent: false,
   commandTranslations: {},
   shellTranslations: {},
   ...DEFAULT_SPAWN_OPTIONS,
@@ -25,7 +26,8 @@ const DEFAULT_SHELL_OPTIONS: CreateShellOptions = {
  * Create a new shell.
  */
 export const createShell = ({
-  log: shouldLog = true,
+  log: logCommand = true,
+  silent = false,
   commandTranslations: customCommandTranslations = {},
   shellTranslations: customShellTranslations = {},
   ...spawnOptions
@@ -65,7 +67,7 @@ export const createShell = ({
         customCommandTranslations,
       );
 
-      if (shouldLog) {
+      if (!silent && logCommand) {
         warn(`$ ${cmd} ${args.join(" ")}`, ["dim"], { preLines: 1, postLines: 1 });
       }
 
@@ -111,10 +113,11 @@ export const createShell = ({
           /**
            * Emulate { stdio: "inherit" } behavior.
            */
-          childProcess.stdout?.pipe(process.stdout);
-          if (shouldLog) {
-            childProcess.stderr?.pipe(process.stderr);
+          if (!silent) {
+            childProcess.stdout?.pipe(process.stdout);
           }
+
+          childProcess.stderr?.pipe(process.stderr);
         }
       );
     },
