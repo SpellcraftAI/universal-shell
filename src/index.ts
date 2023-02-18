@@ -65,9 +65,9 @@ export const createShell = ({
         customCommandTranslations,
       );
 
-      // if (shouldLog) {
-      //   warn(`$ ${cmd} ${args.join(" ")}`, ["dim"], { preLines: 1, postLines: 1 });
-      // }
+      if (shouldLog) {
+        warn(`$ ${cmd} ${args.join(" ")}`, ["dim"], { preLines: 1, postLines: 1 });
+      }
 
       return await new Promise<SpawnResult>(
         (resolve, reject) => {
@@ -112,7 +112,9 @@ export const createShell = ({
            * Emulate { stdio: "inherit" } behavior.
            */
           childProcess.stdout?.pipe(process.stdout);
-          childProcess.stderr?.pipe(process.stderr);
+          if (shouldLog) {
+            childProcess.stderr?.pipe(process.stderr);
+          }
         }
       );
     },
