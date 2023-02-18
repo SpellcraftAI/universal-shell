@@ -1,7 +1,7 @@
 import { spawn, execSync, ChildProcess } from "child_process";
 import { warn } from "@tsmodule/log";
 
-import { CommandTranslations, Platform, ShellCommand, ShellTranslations, SpawnOptions, SpawnResult } from "./types";
+import { CreateShellOptions, Platform, Shell, SpawnOptions, SpawnResult } from "./types";
 import { translateForPlatform } from "./platform";
 
 const POSIX = process.platform === "linux" || process.platform === "darwin";
@@ -65,9 +65,9 @@ export const createShell = ({
         customCommandTranslations,
       );
 
-      if (shouldLog) {
-        warn(`$ ${cmd} ${args.join(" ")}`, ["dim"], { preLines: 1, postLines: 1 });
-      }
+      // if (shouldLog) {
+      //   warn(`$ ${cmd} ${args.join(" ")}`, ["dim"], { preLines: 1, postLines: 1 });
+      // }
 
       return await new Promise<SpawnResult>(
         (resolve, reject) => {
@@ -136,22 +136,5 @@ export const createShell = ({
     }
   };
 };
-
-export * from "./types";
-
-export interface CreateShellOptions extends SpawnOptions {
-  /**
-   * Whether to log the command to the console.
-   */
-  log?: boolean;
-  shellTranslations?: ShellTranslations;
-  commandTranslations?: CommandTranslations;
-}
-
-export interface Shell {
-  run(command: ShellCommand): Promise<SpawnResult>;
-  kill(): boolean;
-  childProcess: ChildProcess | null;
-}
 
 export * from "./types";

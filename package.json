@@ -2,7 +2,7 @@
   "name": "universal-shell",
   "description": "Cross-platform async shell support for POSIX commands on Linux, MacOS, and Windows.",
   "type": "module",
-  "version": "35.0.7",
+  "version": "35.0.8",
   "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
