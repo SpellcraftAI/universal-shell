@@ -115,9 +115,8 @@ export const createShell = ({
            */
           if (!silent) {
             childProcess.stdout?.pipe(process.stdout);
+            childProcess.stderr?.pipe(process.stderr);
           }
-
-          childProcess.stderr?.pipe(process.stderr);
         }
       );
     },
