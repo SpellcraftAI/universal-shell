@@ -24,9 +24,9 @@
   },
   "devDependencies": {
     "@tsmodule/log": "^2.2.1",
-    "@tsmodule/tsmodule": "^41.21.0",
-    "@types/node": "^18.11.9",
-    "ava": "^5.1.0"
+    "@tsmodule/tsmodule": "^44.5.0",
+    "@types/node": "^20.2.3",
+    "ava": "^5.2.0"
   },
   "keywords": [
     "shell",
