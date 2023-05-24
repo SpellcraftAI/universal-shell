@@ -36,5 +36,15 @@
     "exec",
     "child_process",
     "cross-platform"
-  ]
+  ],
+  "release-it": {
+    "git": {
+      "commitMessage": "release: v${version}",
+      "tagAnnotation": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "releaseName": "v${version}"
+    }
+  }
 }
