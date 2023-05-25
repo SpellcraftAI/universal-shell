@@ -85,8 +85,8 @@ export const createShell = ({
             childProcess = null;
             const spawnResult = {
               code,
-              stdout,
-              stderr,
+              stdout: stdout.trim(),
+              stderr: stderr.trim(),
             };
 
             if (code === 0) {

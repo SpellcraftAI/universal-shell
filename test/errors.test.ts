@@ -1,5 +1,4 @@
 import { URL, fileURLToPath } from "url";
-import { EOL } from "os";
 import { Platform } from "../src/types";
 import { createShell } from "../src";
 import test from "ava";
@@ -117,7 +116,7 @@ test.serial("should return proper { code, stdin, stderr } values", async (t) => 
   const { code, stdout, stderr } = await shell.run("echo hello world");
 
   t.is(code, 0);
-  t.is(stdout, `hello world${EOL}`);
+  t.is(stdout, `hello world`);
   t.is(stderr, "");
 });
 
@@ -162,7 +161,7 @@ test.serial("should support platform-specific overrides", async (t) => {
 
     t.is(
       stdout,
-      `hello ${platform}${EOL}`,
+      `hello ${platform}`,
       `should use ${platform} command for target ${target}`
     );
   }
